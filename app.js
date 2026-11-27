@@ -301,7 +301,10 @@ document.getElementById("btnExportCSV").addEventListener("click", () => {
 
   let tableHTML = `
     <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://w3.org">
-    <head><meta charset="utf-8"></head>
+    <head>
+  <meta charset="utf-8">
+  <!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>Acta de Evaluación</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->
+</head>
     <body>
       <table border="1" style="border-collapse: collapse; font-family: Arial, sans-serif;">
         <thead>
