@@ -1,0 +1,9 @@
+{
+  "name": "Gestor de Rúbricas Digitales",
+  "short_name": "RúbricaPWA",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f1f5f9",
+  "theme_color": "#1e40af",
+  "description": "Evaluación por rúbricas en tiempo real con diagnóstico visual y retroalimentación instantánea."
+}

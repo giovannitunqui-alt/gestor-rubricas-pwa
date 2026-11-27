@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestor de Rúbricas Digitales</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#1e40af" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>Rúbrica Digital Pro</h1>
+      <p>Evaluación formativa en tiempo real</p>
+    </div>
+    <div class="topbar-actions">
+      <button id="btnDemoData" class="btn-secondary" type="button">Cargar Demo</button>
+      <button id="btnExportCSV" class="btn-secondary" type="button">Exportar Acta (CSV)</button>
+      <button id="btnClearHistory" class="btn-secondary" type="button">Limpiar Acta</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Datos del evaluado -->
+    <section class="card student-panel">
+      <div class="field-group">
+        <label for="studentName">Estudiante o Equipo</label>
+        <input type="text" id="studentName" placeholder="Ej. Equipo Alfa - Maqueta Solar" />
+      </div>
+      <div class="field-group">
+        <label for="studentEmail">Correo del estudiante</label>
+        <input type="email" id="studentEmail" placeholder="estudiante@institucion.edu.pe" />
+      </div>
+      <div class="score-badge">
+        <span>Nota Final</span>
+        <strong id="finalScore">0.0</strong>
+        <small id="scoreStatus">Sin evaluar</small>
+      </div>
+    </section>
+
+    <!-- Constructor rápido de criterios -->
+    <section class="card builder-panel">
+      <div class="builder-header">
+        <h2>Constructor de Criterios</h2>
+        <span id="totalWeightBadge" class="weight-tag">Peso total: 100%</span>
+      </div>
+
+      <form id="criterionForm" class="builder-form">
+        <div class="field-group">
+          <label for="critName">Nombre del criterio</label>
+          <input type="text" id="critName" placeholder="Ej. Uso de recursos visuales" required />
+        </div>
+        <div class="field-group">
+          <label for="critWeight">Peso (%)</label>
+          <input type="number" id="critWeight" min="5" max="100" step="5" value="20" required />
+        </div>
+        <div class="field-group">
+          <label for="critFocus">Enfoque de retroalimentación</label>
+          <input type="text" id="critFocus" placeholder="Ej. Síntesis visual y legibilidad" />
+        </div>
+        <button type="submit" class="btn-primary">+ Agregar Criterio</button>
+      </form>
+    </section>
+
+    <!-- Matriz interactiva de evaluación -->
+    <section id="rubricContainer" class="rubric-grid"></section>
+
+    <!-- Observación y acciones -->
+    <section class="card actions-panel">
+      <label for="extraFeedback">Observación adicional del docente (opcional)</label>
+      <textarea id="extraFeedback" rows="2" placeholder="Escribe un consejo puntual para mejorar..."></textarea>
+
+      <div class="action-buttons">
+        <button id="btnSaveEval" class="btn-primary" type="button">Guardar Evaluación</button>
+        <button id="btnSendFeedback" class="btn-accent" type="button">Generar Retroalimentación</button>
+      </div>
+    </section>
+
+    <!-- Diagnóstico visual e informe -->
+    <section class="results-grid">
+      <div class="card chart-card">
+        <h2>Diagnóstico de Fortalezas y Debilidades</h2>
+        <canvas id="skillsChart"></canvas>
+      </div>
+
+      <div class="card feedback-card">
+        <h2>Vista Previa de Retroalimentación</h2>
+        <pre id="feedbackPreview">Selecciona los niveles de logro en la rúbrica para generar el informe automático...</pre>
+      </div>
+    </section>
+
+    <!-- Acta consolidada -->
+    <section class="card">
+      <h2>Acta Consolidada del Aula (<span id="evalCount">0</span>)</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Estudiante / Equipo</th>
+              <th>Nota (0-20)</th>
+              <th>Estado</th>
+              <th>Fortaleza Principal</th>
+              <th>Aspecto a Mejorar</th>
+            </tr>
+          </thead>
+          <tbody id="historyBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
