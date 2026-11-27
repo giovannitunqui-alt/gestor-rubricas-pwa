@@ -299,24 +299,44 @@ document.getElementById("btnExportCSV").addEventListener("click", () => {
     return;
   }
 
- const sep = ";"; // Punto y coma para que Excel en español separe columnas limpiamente
-  const headers = ["Estudiante/Equipo", "Correo", "Nota Final (0-20)", "Estado", "Fortaleza Principal", "Aspecto a Mejorar"];
-  const rows = evaluationsHistory.map((e) => [
-    `"${e.student}"`,
-    `"${e.email}"`,
-    `"${e.score.replace(".", ",")}"`, // Coma decimal para Excel en español
-    `"${e.status}"`,
-    `"${e.strength}"`,
-    `"${e.improvement}"`
-  ]);
+  let tableHTML = `
+    <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://w3.org">
+    <head><meta charset="utf-8"></head>
+    <body>
+      <table border="1" style="border-collapse: collapse; font-family: Arial, sans-serif;">
+        <thead>
+          <tr style="background-color: #1e293b; color: #ffffff; font-weight: bold;">
+            <th style="border: 1px solid #000000; padding: 8px;">Estudiante / Equipo</th>
+            <th style="border: 1px solid #000000; padding: 8px;">Correo</th>
+            <th style="border: 1px solid #000000; padding: 8px;">Nota Final (0-20)</th>
+            <th style="border: 1px solid #000000; padding: 8px;">Estado</th>
+            <th style="border: 1px solid #000000; padding: 8px;">Fortaleza Principal</th>
+            <th style="border: 1px solid #000000; padding: 8px;">Aspecto a Mejorar</th>
+          </tr>
+        </thead>
+        <tbody>
+  `;
 
-  const csvContent = "\uFEFF" + [headers.join(sep), ...rows.map((r) => r.join(sep))].join("\r\n");
-  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  evaluationsHistory.forEach(e => {
+    tableHTML += `
+      <tr>
+        <td style="border: 1px solid #000000; padding: 6px;">${e.student}</td>
+        <td style="border: 1px solid #000000; padding: 6px;">${e.email}</td>
+        <td style="border: 1px solid #000000; padding: 6px; text-align: center;">${e.score.replace(".", ",")}</td>
+        <td style="border: 1px solid #000000; padding: 6px; text-align: center;">${e.status}</td>
+        <td style="border: 1px solid #000000; padding: 6px;">${e.strength}</td>
+        <td style="border: 1px solid #000000; padding: 6px;">${e.improvement}</td>
+      </tr>
+    `;
+  });
+
+  tableHTML += `</tbody></table></body></html>`;
+
+  const blob = new Blob([tableHTML], { type: "application/vnd.ms-excel;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
-
   const link = document.createElement("a");
   link.href = url;
-  link.download = "acta_evaluacion_rubrica.csv";
+  link.download = "acta_evaluacion_rubrica.xls";
   link.click();
   URL.revokeObjectURL(url);
 });
